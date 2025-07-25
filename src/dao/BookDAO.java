@@ -14,7 +14,7 @@ public class BookDAO {
 	
 	//ADD
 	public boolean addBook(Book book) {
-		String sql = "Insert into LMS_BOOKS (TITLE, AUTHOR, PUBLISHER_ID, ISBN, PUB_YEAR) values (?, ?, ?, ?, ?)";
+		String sql = "INSERT into LMS_BOOKS (TITLE, AUTHOR, PUBLISHER_ID, ISBN, PUB_YEAR) VALUES (?, ?, ?, ?, ?)";
 		try (Connection conn = DBConnection.getConnection();
 			 PreparedStatement stmt = conn.prepareStatement(sql)) {
 			stmt.setString(1, book.getTitle());
@@ -32,7 +32,7 @@ public class BookDAO {
 	
 	//UPDATE
 	public boolean updateBook(Book book) {
-		String sql = "Update LMS_BOOKS set TITLE = ?, AUTHOR = ?, PUBLISHER_ID = ?, ISBN = ?, PUB_YEAR = ? where BOOK_ID = ?";
+		String sql = "UPDATE LMS_BOOKS SET TITLE = ?, AUTHOR = ?, PUBLISHER_ID = ?, ISBN = ?, PUB_YEAR = ? WHERE BOOK_ID = ?";
 		try (Connection conn = DBConnection.getConnection();
 			 PreparedStatement stmt = conn.prepareStatement(sql)) {
 			stmt.setString(1, book.getTitle());
@@ -51,7 +51,7 @@ public class BookDAO {
 	
 	//DELETE
 	public boolean deleteBook(int bookId) {
-		String sql = "Delete from LMS_BOOKS where BOOK_ID = ?";
+		String sql = "DELETE FROM LMS_BOOKS WHERE BOOK_ID = ?";
 		try (Connection conn = DBConnection.getConnection();
 			 PreparedStatement stmt = conn.prepareStatement(sql)) {
 			stmt.setInt(1, bookId);
@@ -64,7 +64,7 @@ public class BookDAO {
 	
 	//GET by ID
 	public Book getBookById(int bookId) {
-		String sql = "Select * from LMS_BOOKS where BOOK_ID = ?";
+		String sql = "SELECT * FROM LMS_BOOKS where BOOK_ID = ?";
 		try (Connection conn = DBConnection.getConnection();
 			 PreparedStatement stmt = conn.prepareStatement(sql)) {
 			stmt.setInt(1, bookId);
@@ -82,7 +82,7 @@ public class BookDAO {
 	//GET all
 	public List<Book> getAllBooks() {
 		List<Book> books = new ArrayList<>();
-		String sql = "Select * from LMS_BOOKS";
+		String sql = "SELECT * FROM LMS_BOOKS";
 		try (Connection conn = DBConnection.getConnection();
 			 PreparedStatement stmt = conn.prepareStatement(sql);
 			 ResultSet rs = stmt.executeQuery()) {
@@ -99,7 +99,7 @@ public class BookDAO {
 	//Search by title or author
 	public List<Book> searchBooks(String keyword) {
 		List<Book> books = new ArrayList<>();
-		String sql = "Select * from LMS_BOOKS where TITLE like ? or AUTHOR like ?";
+		String sql = "SELECT * FROM LMS_BOOKS WHERE TITLE LIKE ? OR AUTHOR LIKE ?";
 		try (Connection conn = DBConnection.getConnection();
 			 PreparedStatement stmt = conn.prepareStatement(sql)) {
 			stmt.setString(1, "%" + keyword + "%");
@@ -117,7 +117,7 @@ public class BookDAO {
 	
 	//Count total books
 	public int countTotalBooks() {
-		String sql = "Select count(*) as total from LMS_BOOKS";
+		String sql = "SELECT COUNT(*) AS TOTAL FROM LMS_BOOKS";
 		try (Connection conn = DBConnection.getConnection();
 			 PreparedStatement stmt = conn.prepareStatement(sql);
 			 ResultSet rs = stmt.executeQuery()) {
