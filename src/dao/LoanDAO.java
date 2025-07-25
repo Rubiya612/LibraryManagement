@@ -75,29 +75,6 @@ public class LoanDAO {
 		return loans;
 	}
 	
-	//Update loan by ID
-	public Loan getLoanById(int loanId) {
-		String sql = "SELECT * FROM LMS_LOANS WHERE LOAN_ID = ?";
-		Loan loan = null;
-		try (Connection conn = DBConnection.getConnection();
-			 PreparedStatement stmt = conn.prepareStatement(sql)) {
-			stmt.setInt(1, loanId);
-			ResultSet rs = stmt.executeQuery();
-			if (rs.next()) {
-				loan = new Loan();
-				loan.setLoanId(rs.getInt("LOAN_ID"));
-				loan.setCopyId(rs.getInt("COPY_ID"));
-				loan.setMemberId(rs.getInt("MEMBER_ID"));
-				loan.setLoanDate(rs.getString("LOAN_DATE"));
-				loan.setDueDate(rs.getString("DUE_DATE"));
-				loan.setReturnDate(rs.getString("RETURN_DATE"));
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return loan;
-	}
-	
 	//Update loan
 	public void updateLoan(Loan loan) {
 		String sql = "UPDATE LMS_LOANS SET COPY_ID = ?, MEMBER_ID = ?, LOAN_DATE = ?, DUE_DATE = ?, RETURN_DATE = ? WHERE LOAN_ID = ?";
