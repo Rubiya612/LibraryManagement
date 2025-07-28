@@ -21,7 +21,6 @@ public class Book {
 	public Book() {
 	}
 	
-	
 	public int getBookId() {
 		return bookId;
 	}

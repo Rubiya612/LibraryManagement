@@ -14,7 +14,7 @@ public class PatronDAO {
 	
 	//Add a new member
 	public void addPatron(Patron patron) {
-		String sql = "Insert into LMS_PATRONS (FULL_NAME, MEMBER_TYPE, JOIN_DATE, EMAIL) values (?, ?, ?, ?)";
+		String sql = "Insert into LMS_MEMBERS (FULL_NAME, MEMBER_TYPE, JOIN_DATE, EMAIL) values (?, ?, ?, ?)";
 		try (Connection conn = DBConnection.getConnection();
 			 PreparedStatement stmt = conn.prepareStatement(sql)) {
 			stmt.setString(1, patron.getFullName());
@@ -101,4 +101,27 @@ public class PatronDAO {
 		}
 	}
 	
+	//Search members by name or memberId
+	public List<Patron> searchPatrons(String keyword) {
+		List<Patron> patrons = new ArrayList<>();
+		String sql = "SELECT * FROM LMS_MEMBERS WHERE FULL_NAME LIKE ? OR MEMBER_ID = ?";
+		try (Connection conn = DBConnection.getConnection();
+			 PreparedStatement stmt = conn.prepareStatement(sql)) {
+			stmt.setString(1, "%" + keyword + "%");
+			stmt.setInt(2, Integer.parseInt(keyword));
+			ResultSet rs = stmt.executeQuery();
+			while (rs.next()) {
+				Patron patron = new Patron();
+				patron.setMemberId(rs.getInt("MEMBER_ID"));
+				patron.setFullName(rs.getString("FULL_NAME"));
+				patron.setMemberType(rs.getString("MEMBER_TYPE"));
+				patron.setJoinDate(rs.getString("JOIN_DATE"));
+				patron.setEmail(rs.getString("EMAIL"));
+				patrons.add(patron);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return patrons;
+	}
 }

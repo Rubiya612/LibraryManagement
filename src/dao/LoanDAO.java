@@ -12,7 +12,7 @@ import model.Loan;
 public class LoanDAO {
 
 	//Add new loan
-	public void addLoan(Loan loan) {
+	public boolean addLoan(Loan loan) {
 		String sql = "INSERT INTO LMS_LOANS (COPY_ID, MEMBER_ID, LOAN_DATE, DUE_DATE, RETURN_DATE) VALUES (?, ?, ?, ?, ?)";
 		try (Connection conn = DBConnection.getConnection();
 			 PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -26,6 +26,7 @@ public class LoanDAO {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		return false;
 	}
 	
 	//Get all loans
@@ -51,14 +52,27 @@ public class LoanDAO {
 		return loans;
 	}
 	
-	//Get loan by ID
-	public List<Loan> getLoanById(int loanId) {
-		List<Loan> loans = new ArrayList<>();
-		String sql = "SELECT * FROM LMS_LOANS WHERE LOAN_ID = ?";
+	//Return a book
+	public boolean returnBook(int loanId, String returnDate) {
+		String sql = "UPDATE LMS_LOANS SET RETURN_DATE = ? WHERE LOAN_ID = ?";
 		try (Connection conn = DBConnection.getConnection();
 			 PreparedStatement stmt = conn.prepareStatement(sql)) {
-			stmt.setInt(1, loanId);
-			ResultSet rs = stmt.executeQuery();
+			stmt.setString(1, returnDate);
+			stmt.setInt(2, loanId);
+			stmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+	
+	//Get overdue loans
+	public List<Loan> getOverdueLoans() {
+		List<Loan> overdueLoans = new ArrayList<>();
+		String sql = "SELECT * FROM LMS_LOANS WHERE DUE_DATE < SYSDATE AND RETURN_DATE IS NULL";
+		try (Connection conn = DBConnection.getConnection();
+			 PreparedStatement stmt = conn.prepareStatement(sql);
+			 ResultSet rs = stmt.executeQuery()) {
 			while (rs.next()) {
 				Loan loan = new Loan();
 				loan.setLoanId(rs.getInt("LOAN_ID"));
@@ -67,41 +81,13 @@ public class LoanDAO {
 				loan.setLoanDate(rs.getString("LOAN_DATE"));
 				loan.setDueDate(rs.getString("DUE_DATE"));
 				loan.setReturnDate(rs.getString("RETURN_DATE"));
-				loans.add(loan);
+				overdueLoans.add(loan);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return loans;
+		return overdueLoans;
 	}
-	
-	//Update loan
-	public void updateLoan(Loan loan) {
-		String sql = "UPDATE LMS_LOANS SET COPY_ID = ?, MEMBER_ID = ?, LOAN_DATE = ?, DUE_DATE = ?, RETURN_DATE = ? WHERE LOAN_ID = ?";
-		try (Connection conn = DBConnection.getConnection();
-			 PreparedStatement stmt = conn.prepareStatement(sql)) {
-			stmt.setInt(1, loan.getCopyId());
-			stmt.setInt(2, loan.getMemberId());
-			stmt.setString(3, loan.getLoanDate());
-			stmt.setString(4, loan.getDueDate());
-			stmt.setString(5, loan.getReturnDate());
-			stmt.setInt(6, loan.getLoanId());
-			stmt.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	//Delete loan
-	public void deleteLoan(int loanId) {
-		String sql = "DELETE FROM LMS_LOANS WHERE LOAN_ID = ?";
-		try (Connection conn = DBConnection.getConnection();
-			 PreparedStatement stmt = conn.prepareStatement(sql)) {
-			stmt.setInt(1, loanId);
-			stmt.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
+
 }
 
