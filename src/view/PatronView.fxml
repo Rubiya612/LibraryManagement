@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+      
+      
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml/1"
+        fx:controller="controller.PatronViewController"
+      spacing="10.0">
+
+    <padding>
+        <Insets top="20.0" right="20.0" bottom="20.0" left="20.0"/>
+    </padding>
+      
+
+    <!-- Top bar with Home button -->
+    <HBox alignment="TOP_RIGHT">
+        <Button text="Home" onAction="#handleHome"/>
+    </HBox>
+
+    <!-- Search -->
+    <HBox spacing="10">
+        <TextField fx:id="searchField" promptText="Search by ID" />
+        <Button text="Search" onAction="#handleSearch"/>
+        <Button text="Clear" onAction="#handleClearSearch"/>
+    </HBox>
+
+    <!-- Table -->
+    <TableView fx:id="patronTable" prefHeight="300">
+        <columns>
+            <TableColumn fx:id="idCol" text="ID" prefWidth="60"/>
+            <TableColumn fx:id="nameCol" text="Full Name" prefWidth="180"/>
+            <TableColumn fx:id="typeCol" text="Type" prefWidth="100"/>
+            <TableColumn fx:id="joinCol" text="Join Date" prefWidth="120"/>
+            <TableColumn fx:id="emailCol" text="Email" prefWidth="180"/>
+        </columns>
+    </TableView>
+
+    <!-- Action Buttons -->
+    <HBox spacing="10">
+        <Button text="Add Patron" onAction="#handleAddPatron"/>
+        <Button text="Edit Patron" onAction="#handleEditPatron"/>
+        <Button text="Delete Patron" onAction="#handleDeletePatron"/>
+    </HBox>
+
+</VBox>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+
+      
+      
+      <VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="controller.PatronFormController"
+      
+
+      spacing="10.0">
+
+    <padding>
+        <Insets top="20.0" right="20.0" bottom="20.0" left="20.0"/>
+    </padding>
+
+    <TextField fx:id="nameField" promptText="Full Name"/>
+    <TextField fx:id="typeField" promptText="Member Type"/>
+    <TextField fx:id="dateField" promptText="Join Date (YYYY-MM-DD)"/>
+    <TextField fx:id="emailField" promptText="Email"/>
+
+    <HBox spacing="10">
+        <Button text="Save" onAction="#handleSave"/>
+        <Button text="Cancel" onAction="#handleCancel"/>
+    </HBox>
+</VBox>

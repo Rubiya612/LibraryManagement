@@ -2,6 +2,7 @@ package dao;
 
 import util.DBConnection;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -20,7 +21,9 @@ public class PatronDAO {
 			 PreparedStatement stmt = conn.prepareStatement(sql)) {
 			stmt.setString(1, patron.getFullName());
 			stmt.setString(2, patron.getMemberType());
-			stmt.setString(3, patron.getJoinDate());
+			//stmt.setString(3, patron.getJoinDate());
+			Date sqlDate = Date.valueOf(patron.getJoinDate()); 
+			stmt.setDate(3, sqlDate);
 			stmt.setString(4, patron.getEmail());
 			
 			stmt.executeUpdate();
@@ -93,7 +96,11 @@ public class PatronDAO {
 			 PreparedStatement stmt = conn.prepareStatement(sql)) {
 			stmt.setString(1, patron.getFullName());
 			stmt.setString(2, patron.getMemberType());
-			stmt.setString(3, patron.getJoinDate());
+			// Convert String to java.sql.Date
+			java.sql.Date sqlDate = java.sql.Date.valueOf(patron.getJoinDate()); // patron.getJoinDate() must be in "yyyy-MM-dd" format
+			stmt.setDate(3, sqlDate); // 
+
+			//stmt.setString(3, patron.getJoinDate());
 			stmt.setString(4, patron.getEmail());
 			stmt.setInt(5, patron.getMemberId());
 			

@@ -56,7 +56,7 @@ public class HomeController {
 
     @FXML
     private void goToPatrons() {
-        SceneManager.switchScene("PatronList.fxml");
+        SceneManager.switchScene("PatronView.fxml");
     }
 
     @FXML

@@ -19,6 +19,7 @@
     
     
     <Button text="Manage Books" onAction="#goToBooks"/>
+     <Button text="Manage Patrons" onAction="#goToPatrons"/>
 
 
 </VBox>
