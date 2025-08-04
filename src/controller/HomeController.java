@@ -64,6 +64,11 @@ public class HomeController {
     private void goToLoans() {
         SceneManager.switchScene("LoanForm.fxml");
     }
+    
+    @FXML
+    private void goToLoans2() {
+        SceneManager.switchScene("LoanList.fxml");
+    }
 
     @FXML
     private void goToReports() {

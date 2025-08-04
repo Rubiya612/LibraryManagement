@@ -21,6 +21,7 @@
     <Button text="Manage Books" onAction="#goToBooks"/>
      <Button text="Manage Patrons" onAction="#goToPatrons"/>
      <Button text="Add Loans" onAction="#goToLoans"/>
+      <Button text="Manage Loans" onAction="#goToLoans2"/>
 
 
 </VBox>
