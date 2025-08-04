@@ -2,18 +2,48 @@ package dao;
 
 import util.DBConnection;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import model.Loan;
 
 public class LoanDAO {
 
+	
+	 public boolean addLoan(Loan loan) {
+	        String sql = "INSERT INTO LMS_LOANS (COPY_ID, MEMBER_ID, LOAN_DATE, DUE_DATE, RETURN_DATE) VALUES (?, ?, ?, ?, NULL)";
+	        
+	        try (Connection conn = DBConnection.getConnection();
+	             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+	            stmt.setInt(1, loan.getCopyId());
+	            stmt.setInt(2, loan.getMemberId());
+
+	            // Convert string dates to java.sql.Date
+	            LocalDate loanDate = LocalDate.parse(loan.getLoanDate()); // from "yyyy-MM-dd"
+	            LocalDate dueDate = LocalDate.parse(loan.getDueDate());
+
+	            stmt.setDate(3, Date.valueOf(loanDate));
+	            stmt.setDate(4, Date.valueOf(dueDate));
+
+	            stmt.executeUpdate();
+	            return true;
+
+	        } catch (SQLException e) {
+	            System.out.println("SQL Error while inserting loan: " + e.getMessage());
+	        } catch (Exception e) {
+	            System.out.println("Error parsing dates or inserting loan: " + e.getMessage());
+	        }
+
+	        return false;
+	    }
 	//Add new loan
-	public boolean addLoan(Loan loan) {
+	/*public boolean addLoan(Loan loan) {
 		String sql = "INSERT INTO LMS_LOANS (COPY_ID, MEMBER_ID, LOAN_DATE, DUE_DATE, RETURN_DATE) VALUES (?, ?, ?, ?, ?)";
 		try (Connection conn = DBConnection.getConnection();
 			 PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -21,6 +51,7 @@ public class LoanDAO {
 			stmt.setInt(2, loan.getMemberId());
 			stmt.setString(3, loan.getLoanDate());
 			stmt.setString(4, loan.getDueDate());
+			 
 			stmt.setString(5, loan.getReturnDate());
 
 			stmt.executeUpdate();
@@ -28,7 +59,47 @@ public class LoanDAO {
 			e.printStackTrace();
 		}
 		return false;
-	}
+	}*/
+	
+	
+	
+	/*public void addLoan(int copyId, int patronId, LocalDate loanDate, LocalDate dueDate) {
+	    try (Connection conn = DBConnection.getConnection();
+	         PreparedStatement stmt = conn.prepareStatement(
+	             "INSERT INTO LMS_LOANS (COPY_ID, MEMBER_ID, LOAN_DATE, DUE_DATE, RETURN_DATE) VALUES (?, ?, ?, ?, NULL)"
+	         )) {
+	        
+	        stmt.setInt(1, copyId);
+	        stmt.setInt(2, patronId);
+	        stmt.setDate(3, java.sql.Date.valueOf(loanDate));  // ✅
+	        stmt.setDate(4, java.sql.Date.valueOf(dueDate));   // ✅
+	        
+	        stmt.executeUpdate();
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	}*/
+	
+	/*public boolean addLoan(Loan loan) {
+	    String sql = "INSERT INTO LMS_LOANS (COPY_ID, MEMBER_ID, LOAN_DATE, DUE_DATE, RETURN_DATE) VALUES (?, ?, ?, ?, ?)";
+	    try (Connection conn = DBConnection.getConnection();
+	         PreparedStatement stmt = conn.prepareStatement(sql)) {
+	        stmt.setInt(1, loan.getCopyId());
+	        stmt.setInt(2, loan.getMemberId());
+	        stmt.setString(3, loan.getLoanDate());
+	        stmt.setString(4, loan.getDueDate());
+	        stmt.setString(5, loan.getReturnDate());
+
+	        int rowsAffected = stmt.executeUpdate();
+	        return rowsAffected > 0;
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    return false;
+	}*/
+	
+	
+
 	
 	//Get all loans
 	public List<Loan> getAllLoans() {
@@ -91,6 +162,22 @@ public class LoanDAO {
 		}
 		return false;
 	}
+	
+	/*public boolean returnBook(int loanId, String returnDate) {
+	    String sql = "UPDATE LMS_LOANS SET RETURN_DATE = ? WHERE LOAN_ID = ?";
+	    try (Connection conn = DBConnection.getConnection();
+	         PreparedStatement stmt = conn.prepareStatement(sql)) {
+	        stmt.setString(1, returnDate);
+	        stmt.setInt(2, loanId);
+
+	        int rowsUpdated = stmt.executeUpdate();
+	        return rowsUpdated > 0;
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    return false;
+	}*/
+
 	
 	//Get overdue loans
 	public List<Loan> getOverdueLoans() {

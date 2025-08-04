@@ -27,6 +27,7 @@ public class HomeController {
      * This method is called automatically after the FXML file is loaded.
      * Use it to initialize your dashboard data.
      */
+
     @FXML
     public void initialize() {
         // Fetch counts from the DAOs
@@ -61,7 +62,7 @@ public class HomeController {
 
     @FXML
     private void goToLoans() {
-        SceneManager.switchScene("LoanList.fxml");
+        SceneManager.switchScene("LoanForm.fxml");
     }
 
     @FXML
