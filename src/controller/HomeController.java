@@ -2,6 +2,9 @@ package controller;
 
 
 
+import dao.BookDAO;
+import dao.LoanDAO;
+import dao.PatronDAO;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import util.SceneManager;
@@ -26,11 +29,17 @@ public class HomeController {
      */
     @FXML
     public void initialize() {
-        // TODO: Replace these hardcoded values with real data from your DAO classes
-        totalBooksLabel.setText("1200");
-        totalPatronsLabel.setText("350");
-        currentLoansLabel.setText("220");
-        overdueLoansLabel.setText("15");
+        // Fetch counts from the DAOs
+        int totalBooks = BookDAO.getTotalBooks();
+        int totalPatrons = PatronDAO.getTotalPatrons();
+        int currentLoans = LoanDAO.getCurrentLoanCount();
+        int overdueLoans = LoanDAO.getOverdueLoanCount();
+
+        // Update labels
+        totalBooksLabel.setText("Total Books: " + totalBooks);
+        totalPatronsLabel.setText("Total Patrons: " + totalPatrons);
+        currentLoansLabel.setText("Current Loans: " + currentLoans);
+        overdueLoansLabel.setText("Overdue Loans: " + overdueLoans);
     }
 
     // Navigation button handlers
@@ -42,7 +51,7 @@ public class HomeController {
 
     @FXML
     private void goToBooks() {
-        SceneManager.switchScene("BookList.fxml");
+        SceneManager.switchScene("Books.fxml");
     }
 
     @FXML
@@ -64,4 +73,6 @@ public class HomeController {
     private void goToSettings() {
         SceneManager.switchScene("Settings.fxml");
     }
+    
+    
 }

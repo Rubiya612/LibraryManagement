@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import model.Loan;
@@ -51,6 +52,31 @@ public class LoanDAO {
 		}
 		return loans;
 	}
+	//RUbiya
+	public static int getCurrentLoanCount() {
+	    String sql = "SELECT COUNT(*) FROM LMS_LOANS WHERE return_date IS NULL";
+	    try (Connection conn = DBConnection.getConnection();
+	         Statement stmt = conn.createStatement();
+	         ResultSet rs = stmt.executeQuery(sql)) {
+	        if (rs.next()) return rs.getInt(1);
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    return 0;
+	}
+
+	public static int getOverdueLoanCount() {
+	    String sql = "SELECT COUNT(*) FROM LMS_LOANS WHERE return_date IS NULL AND due_date < CURRENT_DATE";
+	    try (Connection conn = DBConnection.getConnection();
+	         Statement stmt = conn.createStatement();
+	         ResultSet rs = stmt.executeQuery(sql)) {
+	        if (rs.next()) return rs.getInt(1);
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    return 0;
+	}
+
 	
 	//Return a book
 	public boolean returnBook(int loanId, String returnDate) {

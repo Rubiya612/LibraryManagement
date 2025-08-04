@@ -27,7 +27,7 @@ public class BookController {
 		return bookDAO.deleteBook(bookId);
 	}
 	
-	//Get all books
+	//Get all books6
 	public List<Book> getAllBooks() {
 		return bookDAO.getAllBooks();
 	}

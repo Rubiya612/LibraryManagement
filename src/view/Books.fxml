@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="controller.BookViewController"
+      spacing="10.0">
+
+    <padding>
+        <Insets top="20.0" right="20.0" bottom="20.0" left="20.0"/>
+    </padding>
+
+    <HBox alignment="CENTER_RIGHT">
+    <Button text="Home" onAction="#handleHome"/>
+</HBox>
+
+
+    <HBox spacing="10.0">
+        <TextField fx:id="searchField" promptText="Search by title, author, or ISBN" />
+        <Button text="Search" onAction="#handleSearch"/>
+        <Button text="Clear" onAction="#handleClearSearch"/>
+    </HBox>
+
+    <TableView fx:id="bookTable" prefHeight="200.0">
+        <columns>
+            <TableColumn fx:id="idCol" text="ID" prefWidth="50.0"/>
+            <TableColumn fx:id="titleCol" text="Title" prefWidth="150.0"/>
+            <TableColumn fx:id="authorCol" text="Author" prefWidth="150.0"/>
+            <TableColumn fx:id="isbnCol" text="ISBN" prefWidth="120.0"/>
+            <TableColumn fx:id="pubYearCol" text="Publication Year" prefWidth="80.0"/>
+        </columns>
+    </TableView>
+
+    <HBox spacing="10.0">
+        <Button text="Add Book" onAction="#handleAddBook"/>
+        <Button text="Edit Book" onAction="#handleEditBook"/>
+        <Button text="Delete Book" onAction="#handleDeleteBook"/>
+    </HBox>
+</VBox>
