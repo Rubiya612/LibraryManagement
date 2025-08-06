@@ -3,18 +3,23 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<GridPane hgap="10" vgap="10" padding="20" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml"
-          fx:controller="controller.SettingsController">
+<VBox spacing="15" alignment="CENTER" xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml" fx:controller="controller.SettingsController"
+      style="-fx-padding: 30;">
+    
+    <Label text="Library Settings" style="-fx-font-size: 18px;"/>
+    <Label fx:id="statusLabel" text="" visible="false"/>
 
-    <Label text="Library Hours:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
-    <TextField fx:id="hoursField" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+    <HBox spacing="10">
+        <Label text="Library Hours:" minWidth="120"/>
+        <TextField fx:id="libraryHoursField" promptText="e.g. 9AM - 5PM"/>
+    </HBox>
 
-    <Label text="Fine Rate ($/day):" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
-    <TextField fx:id="fineRateField" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+    <HBox spacing="10">
+        <Label text="Fine per Day:" minWidth="120"/>
+        <TextField fx:id="fineRateField" promptText="e.g. 0.50"/>
+    </HBox>
 
-    <Label text="Admin Users:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
-    <TextField fx:id="adminField" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
-
-    <Button text="Save Settings" GridPane.rowIndex="3" GridPane.columnSpan="2" GridPane.halignment="CENTER" fx:id="saveButton"/>
-
-</GridPane>
+    <Button text="Save Settings" onAction="#handleSave"/>
+     <Button text="Home" onAction="#handleHome"/>
+</VBox>
